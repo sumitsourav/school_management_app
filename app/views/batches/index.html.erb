@@ -1,0 +1,7 @@
+<!-- app/views/batches/index.html.erb -->
+<h1>List of Batches for <%= @course.name %></h1>
+<ul>
+  <% @batches.each do |batch| %>
+    <li><%= link_to batch.name, school_course_batch_path(@course.school, @course, batch) %></li>
+  <% end %>
+</ul>

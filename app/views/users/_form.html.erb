@@ -1,0 +1,13 @@
+<!-- app/views/users/_form.html.erb -->
+<%= form_with(model: user, url: user.persisted? ? user_path(user) : users_path, local: true) do |form| %>
+  <%= form.label :email %>
+  <%= form.text_field :email %>
+
+  <%= form.label :password %>
+  <%= form.password_field :password %>
+
+  <%= form.label :password_confirmation %>
+  <%= form.password_field :password_confirmation %>
+
+  <%= form.submit %>
+<% end %>

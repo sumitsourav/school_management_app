@@ -1,0 +1,7 @@
+<!-- app/views/users/index.html.erb -->
+<h1>List of Users</h1>
+<ul>
+  <% @users.each do |user| %>
+    <li><%= link_to user.email, user_path(user) %></li>
+  <% end %>
+</ul>

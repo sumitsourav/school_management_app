@@ -1,0 +1,19 @@
+<!-- app/views/users/show.html.erb -->
+<h1>User Details</h1>
+<p><strong>Email:</strong> <%= @user.email %></p>
+<p><strong>User Type:</strong> <%= @user.user_type.capitalize %></p>
+<% if @user.school_admin? %>
+  <p><strong>School admin of:</strong></p>
+  <% @user.schools.each do |school| %>
+    <p><%= school.name %></p>
+  <% end %>
+<% end %>
+
+<% if @user.admin? %>
+  <p><strong>Admin Information:</strong> Display any specific information for admin users here.</p>
+<% elsif @user.school_admin? %>
+  <p><strong>School Admin Information:</strong> Display any specific information for school admin users here.</p>
+<% elsif @user.student? %>
+  <p><strong>Student Information:</strong> Display any specific information for student users here.</p>
+<% end %>
+<%= link_to "Back to Home", authenticated_root_path %>

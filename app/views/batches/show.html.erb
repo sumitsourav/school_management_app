@@ -1,0 +1,10 @@
+<!-- app/views/batches/show.html.erb -->
+<h1><%= @batch.name %></h1>
+<p>Start Date: <%= @batch.start_date %></p>
+<p>End Date: <%= @batch.end_date %></p>
+
+<h3>Adding students to this batch:</h3>
+<%= link_to "Add Students", new_school_course_batch_enrollment_path(batch_id: @batch.id), class: "btn btn-primary" %>
+
+<%= link_to "Back to Home", authenticated_root_path %>
+

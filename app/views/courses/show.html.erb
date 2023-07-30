@@ -1,0 +1,54 @@
+<!-- app/views/courses/show.html.erb -->
+<h1><%= @course.name %></h1>
+<p>Description: <%= @course.description %></p>
+
+<% if current_user&.admin? || @course.school.user_id == current_user&.id %>
+  <%= link_to "Create New Batch", new_school_course_batch_path(school_id: @course.school_id, course_id: @course.id) %>
+<% end %>
+
+<h2>Batches:</h2>
+<% @course.batches.each do |batch| %>
+  <p>
+    <h2>Name: <%= batch.name.capitalize %>   Start Date: <%= batch.start_date %> - End Date: <%= batch.end_date %></h2>
+    <% if current_user&.admin? || @course.school.user_id == current_user&.id %>
+      - <%= link_to "Add students to this batch", new_school_course_batch_enrollment_path(batch_id: batch.id, course_id: @course.id) %>
+      <br>
+      <br>
+      <%= link_to 'View Enrollment Requests for this batch', school_course_batch_enrollments_path(course_id: @course.id, batch_id: batch.id) %>
+    <% end %>
+    <% if current_user&.student? %>
+      <h3>Batchmates:</h3>
+      <% enrolled = Enrollment.find_by(student_id: @student.id,batch_id: batch.id) %>
+      <% if enrolled.present? && enrolled.status == 'approved'  %>
+        <% classmates_ids = Enrollment.where(batch_id: batch.id, status: "approved").pluck(:student_id) %>
+        <% classmates = Student.where(id: classmates_ids).where.not(id: @student.id) %>
+          <ul>
+            <% classmates.each do |batchmate| %>
+              <li><%= batchmate.name %> - <%= batchmate.roll_number %></li>
+            <% end %>
+          </ul>
+      <% elsif enrolled.present? && enrolled.status == 'pending'  %>
+        <h4>Your request for this batch is in pending status</h4>
+      <% else %>
+        <h4>You are not enrolled in this batch</h4>
+      <% end %> 
+      <%= link_to "Raise Enrollment Request", new_school_course_batch_enrollment_path(course_id: @course.id, batch_id: batch.id) %>
+    <% end %>
+  </p>
+ <% if current_user&.admin? || current_user&.school_admin?   %>
+    <% if batch.enrollments.any? %>
+      <h3>Enrolled Students:</h3>
+      <ul>
+        <% batch.enrollments.each do |enrollment| %>
+          <% if enrollment.status == 'approved' %>
+            <li><%= enrollment.student.name %> - Status: <%= enrollment.status %></li>
+          <% end %>
+        <% end %>
+      </ul>
+    <% else %>
+      <p>No students enrolled in this batch yet.</p>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= link_to "Back to Home", authenticated_root_path %>

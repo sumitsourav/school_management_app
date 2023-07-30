@@ -1,0 +1,22 @@
+<!-- app/views/users/new_school_admin.html.erb -->
+<h1>Create New School Admin</h1>
+<%= form_with(model: @user, url: create_school_admin_path, local: true, method: :post) do |form| %>
+  <%= form.label :email %>
+  <%= form.email_field :email %>
+
+  <%= form.label :password %>
+  <%= form.password_field :password %>
+
+  <%= form.label :password_confirmation %>
+  <%= form.password_field :password_confirmation %>
+
+  <div class="field">
+    <%= form.label :school_id %>
+    <%= form.collection_select :school_id, @schools, :id, :name %>
+  </div>
+
+  <%= form.submit "Create School Admin" %>
+<% end %>
+<% if @user.errors.any? %>
+  <p><%= @user.errors.full_messages.join('\n') %></p>
+<% end %>

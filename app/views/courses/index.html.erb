@@ -1,0 +1,7 @@
+<!-- app/views/courses/index.html.erb -->
+<h1>List of Courses for <%= @school.name %></h1>
+<ul>
+  <% @courses.each do |course| %>
+    <li><%= link_to course.name, school_course_path(@school, course) %></li>
+  <% end %>
+</ul>

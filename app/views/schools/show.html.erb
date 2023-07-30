@@ -1,0 +1,21 @@
+<!-- app/views/schools/show.html.erb -->
+<h1><%= @school.name %></h1>
+<p>Address: <%= @school.address %></p>
+<p>Phone: <%= @school.phone %></p>
+<p>school_admin: <%= User.find(@school.user_id).email %></p>
+
+<h3>List of Courses for the School</h3>
+<% if @school.courses.blank? %>
+  <p>No courses for the school yet.</p>
+<% end %>
+<ul>
+  <% @school.courses.each do |course| %>
+    <li><%= link_to course.name, school_course_path(school_id: @school.id, id: course.id) %></li>
+  <% end %>
+</ul>
+<% if current_user&.admin? || @school.user_id == current_user&.id %>
+  <%= link_to "Edit School", edit_school_path(@school) %>
+  <%= link_to 'Create Courses', new_school_course_path(school_id: @school.id) %>
+<% end %>
+
+<%= link_to "Back to Home", authenticated_root_path %>

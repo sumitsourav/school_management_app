@@ -1,0 +1,10 @@
+<!-- app/views/students/_form.html.erb -->
+<%= form_with(model: student, url: student.persisted? ? student_path(student) : batch_students_path(@batch)) do |form| %>
+  <%= form.label :name %>
+  <%= form.text_field :name %>
+
+  <%= form.label :roll_number %>
+  <%= form.text_field :roll_number %>
+
+  <%= form.submit %>
+<% end %>

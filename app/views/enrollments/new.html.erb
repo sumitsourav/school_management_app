@@ -1,0 +1,21 @@
+<!-- app/views/enrollments/new.html.erb -->
+<% if current_user.user_type != 'student' %>
+  <h1>Enroll Student</h1>
+  <%= form_with(model: @enrollment, url: school_course_batch_enrollments_path(@school, @batch), local: true) do |form| %>
+    <%= form.label :student_id %>
+    <%= form.collection_select :student_id, @students, :id, :name %>
+
+    <%= form.submit "Enroll Student" %>
+  <% end %>
+<% else %>
+  <h2>Course: <%= @batch.course.name %></h2>
+  <h2>Batch: <%= @batch.name %></h2>
+  <%= form_with(model: @enrollment, url: school_course_batch_enrollments_path(@student, @batch), local: true) do |form| %>
+    <%= form.hidden_field :student_id, value: @student.id %>
+    <fieldset>
+      <%= form.submit "Raise Enrollment request" %>
+    </fieldset>
+  <% end %>
+<% end %>
+<br>
+<%= link_to "Back to Home", authenticated_root_path %>

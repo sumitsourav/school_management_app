@@ -1,0 +1,23 @@
+<!-- app/views/enrollments/index.html.erb -->
+
+<h1>Enrollment Requests</h1>
+<% if @enrollment_requests.blank? %>
+  <h2>No pending request available</h2>
+<% end %>
+<ul>
+  <% @enrollment_requests.each do |enrollment_request| %>
+    <li>
+      <%= "#{enrollment_request.student.name} - Batch: #{enrollment_request.batch.name}" %>
+      <% if current_user.school_admin? || current_user.admin? %>
+        <%= form_with(model: enrollment_request, url: approval_enrollment_path(enrollment_request), method: :post, local: true) do |form| %>
+          <%= form.submit "Approve" %>
+        <% end %>
+        <%= form_with(model: enrollment_request, url: decline_enrollment_path(enrollment_request), method: :post, local: true) do |form| %>
+          <%= form.submit "Decline" %>
+        <% end %>
+      <% end %>
+    </li>
+  <% end %>
+</ul>
+
+<%= link_to "Back to Home", authenticated_root_path %>

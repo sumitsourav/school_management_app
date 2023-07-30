@@ -1,0 +1,10 @@
+<!-- app/views/courses/_form.html.erb -->
+<%= form_with(model: course, url: course.persisted? ? course_path(course) : school_courses_path(@school)) do |form| %>
+  <%= form.label :name %>
+  <%= form.text_field :name %>
+
+  <%= form.label :description %>
+  <%= form.text_area :description %>
+
+  <%= form.submit %>
+<% end %>
