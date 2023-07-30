@@ -19,7 +19,7 @@ Before running the application, make sure you have the following installed on yo
 1. Clone the repository to your local machine:
 
    ```bash
-   git clone https://github.com/your-username/school_management_app.git
+   git clone https://github.com/sumitsourav/school_management_app
 
 2. Change into the application directory:
 
